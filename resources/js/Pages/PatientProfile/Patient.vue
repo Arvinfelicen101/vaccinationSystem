@@ -5,6 +5,10 @@ import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } fro
 
 import { ref } from 'vue';
 
+const props = defineProps({
+  patientProfile: Array
+})
+
 const showModal = ref(true)
   
 const open = ref(false)
@@ -26,10 +30,10 @@ const open = ref(false)
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-3xl">
-          <div class="flex justify-between sm:items-center p-6 bg-white border-b font-bold border-gray-200">
+          <div class="flex justify-between items-center p-6 bg-white border-b font-bold border-gray-200">
             Patients
 
-            <Link href="/dashboard/create" class="
+            <Link href="/patientProfile/create" class="
                 bg-red-600
                 hover:bg-red-700
                 font-bold
@@ -49,32 +53,34 @@ const open = ref(false)
             
           </div>
         </div>
-        <table class="mt-4 min-w-full divide-y divide-gray-200 border">
-  <thead class="bg-gray-50 border-b-2 border-gray-300 text-left">
+        <div class="overflow-auto">
+    <table class="mt-4 min-w-full divide-y divide-gray-200 ">
+  <thead class="bg-gray-50">
     <tr>
-      <th class="p-3 text-sm font-semibold border-b-3 tracking-wide">Song</th>
-      <th class="p-3 text-sm font-semibold border-b-3 tracking-wide">Artist</th>
-      <th class="p-3 text-sm font-semibold border-b-3 tracking-wide">Year</th>
+      <th  scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First Name</th>
+      <th  scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Name</th>
+      <th  scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
+      <th  scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name of Vaccine for First Dose</th>
+      <th  scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date of Vaccination</th>
+      <th  scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name of Vaccine for Second Dose</th>
+      <th  scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date of Vaccination</th>
     </tr>
   </thead>
-  <tbody>
-    <tr class="bg-white">
-      <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-      <td>Malcolm Lockyer</td>
-      <td>1961</td>
+  <tbody class="bg-white divide-y divide-gray-200">
+    <tr v-for="patients in patientProfile" :key="patients.id">
+      <td class=" px-6 py-4 whitespace-nowrap">{{patients.first_name}}</td>
+      <td class=" px-6 py-4 whitespace-nowrap">{{patients.last_name}}</td>
+      <td class=" px-6 py-4 whitespace-nowrap">{{patients.address}}</td>
+      <td class=" px-6 py-4 whitespace-nowrap">{{patients.first_vaxx}}</td>
+      <td class=" px-6 py-4 whitespace-nowrap">{{patients.date_firstdose}}</td>
+      <td class=" px-6 py-4 whitespace-nowrap">{{patients.second_vaxx}}</td>
+      <td class=" px-6 py-4 whitespace-nowrap">{{patients.date_seconddose}}</td>
     </tr>
-    <tr class="bg-gray-100">
-      <td>Witchy Woman</td>
-      <td>The Eagles</td>
-      <td>1972</td>
-    </tr>
-    <tr class="bg-white">
-      <td>Shining Star</td>
-      <td>Earth, Wind, and Fire</td>
-      <td>1975</td>
-    </tr>
+    
   </tbody>
 </table>
+        </div>
+
 
 
  <TransitionRoot as="template" :show="open">
@@ -120,9 +126,9 @@ const open = ref(false)
                 </div>
  
                <div class="col-span-6 relative">
-                  <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                  <!-- <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                     <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                  </div>
+                  </div> -->
                   <input datepicker type="text" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
                 </div>
 
@@ -132,9 +138,9 @@ const open = ref(false)
                 </div>
 
                  <div class="col-span-6 relative">
-                  <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                  <!-- <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                     <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                  </div>
+                  </div> -->
                   <input datepicker type="text" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
                 </div>
 

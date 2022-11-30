@@ -25,8 +25,13 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard/create', [PatientController::Class, 'create'])->name('dashboard.create');
-Route::get('/patientProfile/', [PatientController::Class, 'index'])->name('patientProfile.index');
+Route::middleware(['auth', 'verified'])->group(function() {
+    Route::get('/patientProfile/create', [PatientController::Class, 'create'])->name('patientProfile.create');
+    Route::post('/patientProfile', [PatientController::Class, 'store'])->name('patientProfile.store');
+    Route::get('/patientProfile', [PatientController::Class, 'index'])->name('patientProfile.index');
+});
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
