@@ -9,6 +9,6 @@ class PatientInfo extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['first_name', 'last_name', 'address', 'first_vaxx', 'date_firstdose', 'second_vaxx', 'date_seconddose']; 
+    protected $fillable = ['id', 'first_name', 'last_name', 'address', 'first_vaxx', 'date_firstdose', 'second_vaxx', 'date_seconddose']; 
 }
  

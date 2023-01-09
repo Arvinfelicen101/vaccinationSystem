@@ -29,6 +29,9 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('/patientProfile/create', [PatientController::Class, 'create'])->name('patientProfile.create');
     Route::post('/patientProfile', [PatientController::Class, 'store'])->name('patientProfile.store');
     Route::get('/patientProfile', [PatientController::Class, 'index'])->name('patientProfile.index');
+    Route::put('/patientProfile/{patientInfo}', [PatientController::Class, 'update'])->name('patientProfile.update');
+    Route::delete('/patientProfile/{patientInfo}', [PatientController::Class, 'destroy'])->name('patientProfile.destroy');
+    Route::get('/patientProfile/{patientInfo}/edit', [PatientController::Class, 'edit'])->name('patientProfile.edit');
 });
 
 

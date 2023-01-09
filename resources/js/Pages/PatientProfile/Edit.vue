@@ -1,20 +1,34 @@
 <script setup>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
+import { Inertia } from "@inertiajs/inertia";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 import { ref } from "vue";
 
-const form = useForm({
-  fName: null,
-  lastName: null,
-  address: null,
-  firstVaxx: null,
-  dateFirstDose: null,
-  secondVaxx: null,
-  dateSecondDose: null,
+const props = defineProps({
+  patientInfo: Object,
 });
 
-function storePatient() {
-  form.post("/patientProfile");
+const form = useForm({
+  fName: props.patientInfo.first_name,
+  lastName: props.patientInfo.last_name,
+  address: props.patientInfo.address,
+  firstVaxx: props.patientInfo.first_vaxx,
+  dateFirstDose: props.patientInfo.date_firstdose,
+  secondVaxx: props.patientInfo.second_vaxx,
+  dateSecondDose: props.patientInfo.date_seconddose,
+});
+
+function updatePatient() {
+  Inertia.post(`/patientProfile/${props.patientInfo.id}`, {
+    _method: "put",
+    fName: form.fName,
+      lastName: form.lastName,
+      address: form.address,
+      firstVaxx: form.firstVaxx,
+      dateFirstDose: form.dateFirstDose,
+      secondVaxx: form.secondVaxx,
+      dateSecondDose: form.dateSecondDose
+  });
 }
 // const emit = defineEmits([''])
 // const showModal = ref(false);
@@ -49,7 +63,7 @@ function storePatient() {
               border-gray-200
             "
           >
-            Add New Patient
+            Update Patient
 
             <Link
               href="/patientProfile"
@@ -72,7 +86,11 @@ function storePatient() {
             >
           </div>
         </div>
-        <form action="#" method="POST" @submit.prevent="storePatient">
+        <form
+          action="#"
+          method="POST"
+          @submit.prevent="updatePatient"
+        >
           <div class="shadow overflow-hidden sm:rounded-3xl">
             <div class="px-4 py-3 bg-white sm:p-5">
               <div class="grid grid-cols-6 gap-6">
@@ -258,6 +276,35 @@ function storePatient() {
                     placeholder="Select date"
                   />
                 </div>
+
+                <div class="col-span-3 lg:col-span-1">
+                  <input
+                    input
+                    id="datetime"
+                    type="date"
+                    name="book_date"
+                    v-model="form.dateSecondDose"
+                    class="
+                      bg-gray-50
+                      border border-gray-300
+                      text-gray-900
+                      sm:text-sm
+                      rounded-lg
+                      focus:ring-blue-500 focus:border-blue-500
+                      block
+                      w-full
+                      pl-10
+                      p-2.5
+                      dark:bg-gray-700
+                      dark:border-gray-600
+                      dark:placeholder-gray-400
+                      dark:text-white
+                      dark:focus:ring-blue-500
+                      dark:focus:border-blue-500
+                    "
+                    placeholder="Select date"
+                  />
+                </div>
               </div>
             </div>
             <div class="px-2 py-5 bg-gray-50 text-right sm:px-6">
@@ -282,7 +329,7 @@ function storePatient() {
                   focus:ring-red-500
                 "
               >
-                Submit
+                Update
               </button>
             </div>
           </div>
